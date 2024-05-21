@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, createContext } from 'react'
 import Todos from './Components/Todos'
 import TodoForm from './Components/TodoForm'
 import Navbar from './Components/Navbar'
+
+export const TodoContext = createContext()
 
 function App() {
   const [todos, setTodos] = useState([
@@ -53,15 +55,18 @@ function App() {
   }
 
   return (
-    <div className="p-3 text-center">
-      <Navbar />
-      <TodoForm addTodo={addTodo} />
-      <Todos
-        todos={todos}
-        toggleCompleted={toggleCompleted}
-        deleteTodo={deleteTodo}
-      />
-    </div>
+    <TodoContext.Provider
+      value={{
+        toggleCompleted,
+        deleteTodo,
+      }}
+    >
+      <div className="p-3 text-center">
+        <Navbar />
+        <TodoForm addTodo={addTodo} />
+        <Todos todos={todos} />
+      </div>
+    </TodoContext.Provider>
   )
 }
 
